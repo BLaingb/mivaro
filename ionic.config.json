@@ -1,0 +1,7 @@
+{
+  "name": "mivaro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
