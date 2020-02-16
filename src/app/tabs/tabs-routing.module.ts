@@ -55,6 +55,10 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/movements',
     pathMatch: 'full'
+  },
+  {
+    path: 'new-movement',
+    loadChildren: () => import('./movements/new-movement/new-movement.module').then( m => m.NewMovementPageModule)
   }
 ];
 

@@ -5,14 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MovementsPage } from './movements.page';
-import { RouterModule } from '@angular/router';
+import { MovementsPageRoutingModule } from './movements-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild([{ path: '', component: MovementsPage }])
+    MovementsPageRoutingModule
   ],
   declarations: [MovementsPage]
 })
