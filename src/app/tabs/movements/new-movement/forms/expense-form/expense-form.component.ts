@@ -12,9 +12,6 @@ export class ExpenseFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.expenseForm = new FormGroup({
-      amount: new FormControl('')
-    });
     this.expenseForm = this.fb.group({
       date: ['', Validators.required],
       category: ['', Validators.required],

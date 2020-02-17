@@ -8,6 +8,7 @@ import { NewMovementPageRoutingModule } from './new-movement-routing.module';
 import { NewMovementPage } from './new-movement.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseFormComponent } from './forms/expense-form/expense-form.component';
+import { IncomeFormComponent } from './forms/income-form/income-form.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { ExpenseFormComponent } from './forms/expense-form/expense-form.componen
     IonicModule,
     NewMovementPageRoutingModule
   ],
-  declarations: [NewMovementPage, ExpenseFormComponent]
+  declarations: [NewMovementPage, ExpenseFormComponent, IncomeFormComponent]
 })
 export class NewMovementPageModule {}

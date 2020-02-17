@@ -1,0 +1,63 @@
+<form [formGroup]="incomeForm">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label>Fecha</ion-label>
+          <ion-datetime
+            displayFormat="DD MM YY"
+            value="new Date()"
+          ></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label>Fuente</ion-label>
+          <ion-select formControlName="source">
+            <ion-select-option value="1">Percept</ion-select-option>
+            <ion-select-option value="2">Natgas</ion-select-option>
+            <ion-select-option value="3">Abuelos</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label position="floating">Monto</ion-label>
+          <ion-input
+            formControlName="amount"
+            type="number"
+            inputmode="decimal"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label position="floating">Descipción</ion-label>
+          <ion-input
+            formControlName="description"
+            type="text"
+            inputmode="text"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label>Cuenta</ion-label>
+          <ion-select formControlName="account">
+            <ion-select-option value="1">TDD Bancomer</ion-select-option>
+            <ion-select-option value="2">TDD Banamex</ion-select-option>
+            <ion-select-option value="3">Efectivo</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

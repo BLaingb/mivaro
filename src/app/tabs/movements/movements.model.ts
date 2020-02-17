@@ -14,6 +14,7 @@ export class Expense extends Movement {
 }
 
 export class Income extends Movement {
+  source: string;
   account: DocumentReference;
 }
 
