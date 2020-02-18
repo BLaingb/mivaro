@@ -17,6 +17,7 @@ import { IncomeFormComponent } from './forms/income-form/income-form.component';
     IonicModule,
     NewMovementPageRoutingModule
   ],
-  declarations: [NewMovementPage, ExpenseFormComponent, IncomeFormComponent]
+  declarations: [NewMovementPage, ExpenseFormComponent, IncomeFormComponent],
+  entryComponents: [ExpenseFormComponent, IncomeFormComponent]
 })
 export class NewMovementPageModule {}
