@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver, ViewContainerRe
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ExpenseFormComponent } from './forms/expense-form/expense-form.component';
 import { IncomeFormComponent } from './forms/income-form/income-form.component';
+import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
-  INGRESO: IncomeFormComponent
+  INGRESO: IncomeFormComponent,
+  INTERCUENTA: ExchangeFormComponent,
 };
 
 @Component({
