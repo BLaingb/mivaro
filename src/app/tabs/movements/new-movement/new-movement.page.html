@@ -18,7 +18,7 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label>Tipo de transacción</ion-label>
-            <ion-select (ionChange)="loadForm($event)">
+            <ion-select value="EGRESO" (ionChange)="loadForm($event)">
               <ion-select-option value="EGRESO">Gasto</ion-select-option>
               <ion-select-option value="INGRESO">Ingreso</ion-select-option>
               <ion-select-option value="INTERCUENTA">Entre cuentas</ion-select-option>

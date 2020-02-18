@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MovementForm } from '../movement-form';
 
 @Component({
   selector: 'app-expense-form',
   templateUrl: './expense-form.component.html',
   styleUrls: ['./expense-form.component.scss'],
 })
-export class ExpenseFormComponent implements OnInit {
-  expenseForm: FormGroup;
+export class ExpenseFormComponent extends MovementForm implements OnInit {
+  form: FormGroup;
+  @Output() formEmitter = new EventEmitter<FormGroup>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
+    super();
+  }
 
   ngOnInit() {
-    this.expenseForm = this.fb.group({
-      date: ['', Validators.required],
+    this.form = this.fb.group({
+      date: [new Date(), Validators.required],
       category: ['', Validators.required],
       amount: ['', Validators.required],
       description: ['', Validators.required],
       account: ['', Validators.required],
       isBilled: ['']
     });
+    this.form.valueChanges.subscribe(() => {
+      this.formEmitter.emit(this.form);
+    });
   }
-
 }
