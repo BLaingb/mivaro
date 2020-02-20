@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "mivaro-56c27": {
+      "hosting": {
+        "app": [
+          "mivaro-56c27"
+        ]
+      }
+    }
+  }
+}

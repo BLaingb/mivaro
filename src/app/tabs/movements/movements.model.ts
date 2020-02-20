@@ -1,6 +1,7 @@
-import { DocumentReference } from 'angularfire2/firestore';
+import { DocumentReference } from '@angular/fire/firestore/interfaces';
 
 export class Movement {
+  user: DocumentReference;
   id?: string;
   date: Date;
   amount: number;
@@ -8,8 +9,8 @@ export class Movement {
 }
 
 export class Expense extends Movement {
-  category: DocumentReference;
-  account: DocumentReference;
+  category: string;
+  account: string;
   isBilled: boolean;
 }
 

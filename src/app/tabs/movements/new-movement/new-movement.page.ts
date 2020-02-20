@@ -10,6 +10,8 @@ import { ExpenseFormComponent } from './forms/expense-form/expense-form.componen
 import { IncomeFormComponent } from './forms/income-form/income-form.component';
 import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
 import { MovementForm } from './forms/movement-form';
+import { MovementsService } from '../movements.service';
+import { Movement, Expense } from '../movements.model';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
@@ -28,14 +30,24 @@ export class NewMovementPage implements OnInit {
   movementFormContainer: ViewContainerRef;
   type = 'EGRESO';
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private movementsService: MovementsService) {}
 
   ngOnInit() {
     this.loadForm({ detail: {} });
+    // const col = this.movementsService.getCollection().subscribe((collection) => {
+    //   console.log('COLLECTION: ', collection);
+    // });
+    // console.log(col);
+    this.movementsService.getMovements().subscribe(movements => {
+      console.log('movements; ', movements);
+    })
   }
 
   onConfirm() {
     console.log('FORM: ', this.form);
+    this.movementsService.addExpense({...this.form.value} as Expense);
   }
 
   loadForm(event: any) {
