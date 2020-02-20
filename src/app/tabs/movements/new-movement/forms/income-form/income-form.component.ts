@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -7,17 +7,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./income-form.component.scss'],
 })
 export class IncomeFormComponent implements OnInit {
-  incomeForm: FormGroup;
+  form: FormGroup;
+  @Output() formEmitter = new EventEmitter<FormGroup>(true);
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.incomeForm = this.fb.group({
+    this.form = this.fb.group({
       date: ['', Validators.required],
       source: ['', Validators.required],
       amount: ['', Validators.required],
       description: ['', Validators.required],
       account: ['', Validators.required]
+    });
+    this.form.valueChanges.subscribe(() => {
+      this.formEmitter.emit(this.form);
     });
   }
 

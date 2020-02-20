@@ -5,7 +5,7 @@ import {
   ComponentFactoryResolver,
   ViewContainerRef
 } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ExpenseFormComponent } from './forms/expense-form/expense-form.component';
 import { IncomeFormComponent } from './forms/income-form/income-form.component';
 import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
@@ -31,7 +31,6 @@ export class NewMovementPage implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    this.form = new FormGroup({});
     this.loadForm({ detail: {} });
   }
 
@@ -40,6 +39,7 @@ export class NewMovementPage implements OnInit {
   }
 
   loadForm(event: any) {
+    this.form = new FormGroup({});
     this.type = event.detail.value || this.type;
     this.movementFormContainer.clear();
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory<MovementForm>(formTypes[this.type]);

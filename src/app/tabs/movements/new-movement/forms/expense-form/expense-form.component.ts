@@ -9,7 +9,7 @@ import { MovementForm } from '../movement-form';
 })
 export class ExpenseFormComponent extends MovementForm implements OnInit {
   form: FormGroup;
-  @Output() formEmitter = new EventEmitter<FormGroup>();
+  @Output() formEmitter = new EventEmitter<FormGroup>(true);
 
   constructor(private fb: FormBuilder) {
     super();
