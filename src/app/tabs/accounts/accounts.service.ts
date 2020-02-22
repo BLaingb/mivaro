@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  DocumentChangeAction
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Account } from './accounts.model';
 import { map } from 'rxjs/operators';
@@ -17,13 +21,17 @@ export class AccountsService {
       AccountsService.COLLECTION_NAME
     );
     this.accounts = this.collection.snapshotChanges().pipe(
-      map(accs =>
-        accs.map(acc => {
-          const data = acc.payload.doc.data();
-          const id = acc.payload.doc.id;
-          return { id, ...data };
-        })
-      )
+      this.mapAccounts()
+    );
+  }
+
+  public mapAccounts() {
+    return map((accounts: DocumentChangeAction<any>[]) =>
+      accounts.map(account => {
+        const data = account.payload.doc.data();
+        const id = account.payload.doc.id;
+        return { id, ...data };
+      })
     );
   }
 

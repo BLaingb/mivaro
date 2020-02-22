@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Movement } from './movements.model';
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
+  DocumentChangeAction
 } from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -19,17 +20,21 @@ export class MovementsService {
   constructor(firestore: AngularFirestore) {
     this.collection = firestore.collection<any>(
       MovementsService.COLLECTION_NAME,
-      (ref => ref.orderBy('date', 'desc').limit(100))
+      ref => ref.orderBy('date', 'desc').limit(100)
     );
     this.movements = this.collection.snapshotChanges().pipe(
-      map(movs =>
-        movs.map(mov => {
-          const data = mov.payload.doc.data();
-          data.date = data.date.toDate();
-          const id = mov.payload.doc.id;
-          return { id, ...data };
-        })
-      )
+      this.mapMovements()
+    );
+  }
+
+  public mapMovements() {
+    return map((movements: DocumentChangeAction<any>[]) =>
+      movements.map(movement => {
+        const data = movement.payload.doc.data();
+        data.date = data.date.toDate();
+        const id = movement.payload.doc.id;
+        return { id, ...data };
+      })
     );
   }
 
