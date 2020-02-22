@@ -12,6 +12,7 @@ import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.compo
 import { MovementForm } from './forms/movement-form';
 import { MovementsService } from '../movements.service';
 import { Movement, Expense } from '../movements.model';
+import { LoadingController } from '@ionic/angular';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
@@ -32,22 +33,21 @@ export class NewMovementPage implements OnInit {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private movementsService: MovementsService) {}
+    private movementsService: MovementsService,
+    private loadingCtrl: LoadingController) {}
 
   ngOnInit() {
     this.loadForm({ detail: {} });
-    // const col = this.movementsService.getCollection().subscribe((collection) => {
-    //   console.log('COLLECTION: ', collection);
-    // });
-    // console.log(col);
-    this.movementsService.getMovements().subscribe(movements => {
-      console.log('movements; ', movements);
-    })
   }
 
-  onConfirm() {
+  async onConfirm() {
     console.log('FORM: ', this.form);
-    this.movementsService.addExpense({...this.form.value} as Expense);
+    const loader = await this.loadingCtrl.create();
+    loader.present().then(() => {
+      this.movementsService.addMovement({...this.form.value, type: this.type }).then(doc => {
+        loader.dismiss();
+      });
+    });
   }
 
   loadForm(event: any) {

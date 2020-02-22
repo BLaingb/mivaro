@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Expense, Movement } from './movements.model';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { Observable } from 'rxjs';
 
@@ -10,9 +10,11 @@ import { Observable } from 'rxjs';
 export class MovementsService {
   static COLLECTION_NAME = 'movements';
   private movements: Observable<Movement[]>;
+  private collection: AngularFirestoreCollection;
   // private collection: AngularFirestoreCollection;
 
   constructor(private firestore: AngularFirestore) {
+    this.collection = firestore.collection<Movement>(MovementsService.COLLECTION_NAME);
     this.movements = firestore.collection<Movement>(MovementsService.COLLECTION_NAME).valueChanges();
   }
 
@@ -27,7 +29,10 @@ export class MovementsService {
   }
 
   public addMovement(movement: Movement) {
-    this.addExpense(movement as Expense);
+    movement.date = new Date(movement.date);
+    return this.collection.add(
+      {...movement}
+    );
   }
 
   public getMovements() {

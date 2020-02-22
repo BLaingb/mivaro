@@ -2,6 +2,7 @@ import { DocumentReference } from '@angular/fire/firestore/interfaces';
 
 export class Movement {
   user: DocumentReference;
+  type: string;
   id?: string;
   date: Date;
   amount: number;
