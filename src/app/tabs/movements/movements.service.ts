@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Expense, Movement } from './movements.model';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Movement } from './movements.model';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,33 +14,31 @@ import { Observable } from 'rxjs';
 export class MovementsService {
   static COLLECTION_NAME = 'movements';
   private movements: Observable<Movement[]>;
-  private collection: AngularFirestoreCollection;
-  // private collection: AngularFirestoreCollection;
+  private collection: AngularFirestoreCollection<any>;
 
-  constructor(private firestore: AngularFirestore) {
-    this.collection = firestore.collection<Movement>(MovementsService.COLLECTION_NAME);
-    this.movements = firestore.collection<Movement>(MovementsService.COLLECTION_NAME).valueChanges();
-  }
-
-  public addExpense(expense: Expense) {
-    // this.collection.add({
-    //   ...expense
-    // }).then(() => {
-    //   console.log('Add expense done!');
-    // }).catch((e) => {
-    //   console.log('Error: ', e);
-    // });
+  constructor(firestore: AngularFirestore) {
+    this.collection = firestore.collection<any>(
+      MovementsService.COLLECTION_NAME,
+      (ref => ref.orderBy('date', 'desc').limit(100))
+    );
+    this.movements = this.collection.snapshotChanges().pipe(
+      map(movs =>
+        movs.map(mov => {
+          const data = mov.payload.doc.data();
+          data.date = data.date.toDate();
+          const id = mov.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
   }
 
   public addMovement(movement: Movement) {
     movement.date = new Date(movement.date);
-    return this.collection.add(
-      {...movement}
-    );
+    return this.collection.add({ ...movement });
   }
 
   public getMovements() {
     return this.movements;
   }
-
 }

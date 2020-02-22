@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MovementsService } from './movements.service';
+import { Observable } from 'rxjs';
+import { Movement } from './movements.model';
 
 @Component({
   selector: 'app-movements',
@@ -6,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movements.page.scss'],
 })
 export class MovementsPage implements OnInit {
+  movements: Movement[];
 
-  constructor() { }
+  constructor(private movementsService: MovementsService) { }
 
   ngOnInit() {
+    this.movementsService.getMovements().subscribe((movs) => {
+      console.log('Movements Changed: ', movs);
+      this.movements = movs;
+    });
   }
 
 }

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MovementsPage } from './movements.page';
 import { MovementsPageRoutingModule } from './movements-routing.module';
+import { MovementItemComponent } from './movement-item/movement-item.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { MovementsPageRoutingModule } from './movements-routing.module';
     IonicModule,
     MovementsPageRoutingModule
   ],
-  declarations: [MovementsPage]
+  declarations: [MovementsPage, MovementItemComponent]
 })
 export class MovementsPageModule {}

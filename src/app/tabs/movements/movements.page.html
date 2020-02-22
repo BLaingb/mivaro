@@ -13,4 +13,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <app-movement-item *ngFor="let movement of movements" [movement]="movement"></app-movement-item>
+  </ion-list>
 </ion-content>

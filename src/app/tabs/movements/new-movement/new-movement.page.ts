@@ -12,7 +12,8 @@ import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.compo
 import { MovementForm } from './forms/movement-form';
 import { MovementsService } from '../movements.service';
 import { Movement, Expense } from '../movements.model';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
@@ -32,21 +33,35 @@ export class NewMovementPage implements OnInit {
   type = 'EGRESO';
 
   constructor(
+    private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private movementsService: MovementsService,
-    private loadingCtrl: LoadingController) {}
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {}
 
   ngOnInit() {
     this.loadForm({ detail: {} });
   }
 
   async onConfirm() {
-    console.log('FORM: ', this.form);
     const loader = await this.loadingCtrl.create();
+    const toast = await this.toastCtrl.create({
+      message: '¡Transacción registrada!',
+      duration: 2000
+    });
     loader.present().then(() => {
-      this.movementsService.addMovement({...this.form.value, type: this.type }).then(doc => {
-        loader.dismiss();
-      });
+      this.movementsService
+        .addMovement({ ...this.form.value, type: this.type })
+        .then(() => {
+          toast.present();
+        }).catch(() => {
+          toast.message = 'Hubo un problema :(';
+          toast.present();
+        }).finally(() => {
+          loader.dismiss();
+          this.router.navigate(['/', 'tabs', 'movements']);
+        });
     });
   }
 
@@ -54,7 +69,9 @@ export class NewMovementPage implements OnInit {
     this.form = new FormGroup({});
     this.type = event.detail.value || this.type;
     this.movementFormContainer.clear();
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<MovementForm>(formTypes[this.type]);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<
+      MovementForm
+    >(formTypes[this.type]);
     const componentRef = this.movementFormContainer.createComponent(
       componentFactory
     );

@@ -1,0 +1,26 @@
+<div [ngSwitch]="movement.type">
+  <div *ngSwitchCase="'EGRESO'">
+    <ion-item>
+      <ion-icon name="remove-outline" slot="start" class="expense-icon"></ion-icon>
+      <ion-label>{{ movement.amount | currency }} - {{ movement.description }}</ion-label>
+      <ion-note slot="end">{{ movement.date | date : 'dd/MM/yy' }}</ion-note>
+    </ion-item>
+  </div>
+  <div *ngSwitchCase="'INGRESO'">
+    <ion-item>
+      <ion-icon name="add-outline" slot="start" class="income-icon"></ion-icon>
+      <ion-label>{{ movement.amount | currency }} - {{ movement.description }}</ion-label>
+      <ion-note slot="end">{{ movement.date | date : 'dd/MM/yy' }}</ion-note>
+    </ion-item>
+  </div>
+  <div *ngSwitchCase="'INTERCUENTA'">
+    <ion-item>
+      <ion-icon name="swap-horizontal-outline" slot="start" class="exchange-icon"></ion-icon>
+      <ion-label>{{ movement.amount | currency }} - {{ movement.description }}</ion-label>
+      <ion-note slot="end">{{ movement.date | date : 'dd/MM/yy' }}</ion-note>
+    </ion-item>
+  </div>
+</div>
+<!-- <ion-item>
+  <ion-label>{{movement.type}}</ion-label>
+</ion-item> -->

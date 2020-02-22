@@ -14,7 +14,7 @@ export class IncomeFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      date: ['', Validators.required],
+      date: [new Date(), Validators.required],
       source: ['', Validators.required],
       amount: ['', Validators.required],
       description: ['', Validators.required],
