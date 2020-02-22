@@ -57,8 +57,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'new-movement',
-    loadChildren: () => import('./movements/new-movement/new-movement.module').then( m => m.NewMovementPageModule)
+    path: 'new-account',
+    loadChildren: () => import('./accounts/new-account/new-account.module').then( m => m.NewAccountPageModule)
   }
 ];
 

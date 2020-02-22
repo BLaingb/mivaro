@@ -8,26 +8,22 @@ import {
 import 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FirestoreService } from 'src/app/shared/firestore.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MovementsService {
-  static COLLECTION_NAME = 'movements';
-  private movements: Observable<Movement[]>;
-  private collection: AngularFirestoreCollection<any>;
+export class MovementsService extends FirestoreService<Movement> {
 
   constructor(firestore: AngularFirestore) {
+    super('movements', firestore);
     this.collection = firestore.collection<any>(
-      MovementsService.COLLECTION_NAME,
+      this.COLLECTION_NAME,
       ref => ref.orderBy('date', 'desc').limit(100)
-    );
-    this.movements = this.collection.snapshotChanges().pipe(
-      this.mapMovements()
     );
   }
 
-  public mapMovements() {
+  public mapObjects() {
     return map((movements: DocumentChangeAction<any>[]) =>
       movements.map(movement => {
         const data = movement.payload.doc.data();
@@ -38,12 +34,9 @@ export class MovementsService {
     );
   }
 
-  public addMovement(movement: Movement) {
+  public addDocument(movement: Movement) {
     movement.date = new Date(movement.date);
-    return this.collection.add({ ...movement });
+    return super.addDocument(movement);
   }
 
-  public getMovements() {
-    return this.movements;
-  }
 }

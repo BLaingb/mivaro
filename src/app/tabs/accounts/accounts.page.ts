@@ -13,7 +13,7 @@ export class AccountsPage implements OnInit {
   constructor(private accountsService: AccountsService) {}
 
   ngOnInit() {
-    this.accountsService.getAccounts().subscribe(accounts => {
+    this.accountsService.getList().subscribe(accounts => {
       this.accounts = accounts;
     });
   }

@@ -52,7 +52,7 @@ export class NewMovementPage implements OnInit {
     });
     loader.present().then(() => {
       this.movementsService
-        .addMovement({ ...this.form.value, type: this.type })
+        .addDocument({ ...this.form.value, type: this.type })
         .then(() => {
           toast.present();
         }).catch(() => {
