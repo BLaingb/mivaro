@@ -7,6 +7,17 @@ export class Movement {
   date: Date;
   amount: number;
   description: string;
+
+  static getIconAndClass(type: string): { icon: string, class: string } {
+    switch (type) {
+      case 'EGRESO':
+        return { icon: 'remove-outline', class: 'expense-icon' };
+      case 'INGRESO':
+        return { icon: 'add-outline', class: 'income-icon' };
+      case 'INTERCUENTA':
+        return { icon: 'swap-horizontal-outline', class: 'exchange-icon' };
+    }
+  }
 }
 
 export class Expense extends Movement {

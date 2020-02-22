@@ -8,9 +8,14 @@ import { Movement } from '../movements.model';
 })
 export class MovementItemComponent implements OnInit {
   @Input() movement: Movement;
+  icon: string;
+  class: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.icon = Movement.getIconAndClass(this.movement.type).icon;
+    this.class = Movement.getIconAndClass(this.movement.type).class;
+  }
 
 }
