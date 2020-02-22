@@ -17,4 +17,8 @@ export class AccountsPage implements OnInit {
       this.accounts = accounts;
     });
   }
+
+  getIcon(account: Account): string {
+    return Account.getIcon(account.type);
+  }
 }

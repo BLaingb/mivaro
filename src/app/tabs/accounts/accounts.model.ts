@@ -1,10 +1,21 @@
 import { DocumentReference } from '@angular/fire/firestore';
 
-export interface Account {
+export class Account {
   user?: DocumentReference;
   id?: string;
   type: 'CUENTA' | 'EFECTIVO' | 'CREDITO';
   name: string;
   startingBalance: number;
   balance: number;
+
+  static getIcon(type: string): string {
+    switch (type) {
+      case 'CUENTA':
+        return 'briefcase-outline';
+      case 'EFECTIVO':
+        return 'cash-outline';
+      case 'CREDITO':
+        return 'card-outline';
+    }
+  }
 }
