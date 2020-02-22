@@ -55,10 +55,6 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/movements',
     pathMatch: 'full'
-  },
-  {
-    path: 'new-account',
-    loadChildren: () => import('./accounts/new-account/new-account.module').then( m => m.NewAccountPageModule)
   }
 ];
 

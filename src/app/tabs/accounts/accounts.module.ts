@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
+import { AccountsPageRoutingModule } from './accounts-routing.module';
 import { AccountsPage } from './accounts.page';
-import { RouterModule } from '@angular/router';
+
+
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     IonicModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: AccountsPage }])
+    AccountsPageRoutingModule
   ],
   declarations: [AccountsPage]
 })
