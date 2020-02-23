@@ -5,7 +5,6 @@ export class Account {
   id?: string;
   type: 'CUENTA' | 'EFECTIVO' | 'CREDITO';
   name: string;
-  startingBalance: number;
   balance: number;
 
   static getIcon(type: string): string {

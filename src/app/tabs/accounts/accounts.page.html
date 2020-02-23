@@ -18,7 +18,11 @@
       <ion-icon
         [name]="getIcon(account)"
         slot="start"></ion-icon>
-      <ion-label>{{ account.name }} ({{ account.balance | currency }})</ion-label>
+      <ion-label>{{ account.name }} </ion-label>
+      <ion-label
+        [ngClass]="{ negative: account.balance < 0, positive: account.balance > 0 }">
+        ({{ account.balance | currency }})
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

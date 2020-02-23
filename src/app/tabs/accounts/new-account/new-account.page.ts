@@ -30,7 +30,7 @@ export class NewAccountPage implements OnInit {
   initializeForm() {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      startingBalance: ['', Validators.required],
+      balance: ['', Validators.required],
       type: ['EFECTIVO', Validators.required]
     });
   }
@@ -43,7 +43,7 @@ export class NewAccountPage implements OnInit {
     });
     loader.present().then(() => {
       this.accountsService
-        .addDocument({ ...this.form.value, balance: this.form.value.startingBalance })
+        .addDocument({ ...this.form.value })
         .then(() => {
           toast.present();
         }).catch(() => {

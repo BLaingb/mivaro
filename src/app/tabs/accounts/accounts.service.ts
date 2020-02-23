@@ -12,7 +12,7 @@ import { FirestoreService } from 'src/app/shared/firestore.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountsService extends FirestoreService<Account>{
+export class AccountsService extends FirestoreService<Account> {
 
   constructor(firestore: AngularFirestore) {
     super('accounts', firestore);
