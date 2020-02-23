@@ -14,22 +14,19 @@ import { FirestoreService } from 'src/app/shared/firestore.service';
   providedIn: 'root'
 })
 export class MovementsService extends FirestoreService<Movement> {
-
   constructor(firestore: AngularFirestore) {
     super('movements', firestore);
-    this.collection = firestore.collection<any>(
+    this.collection = firestore.collection<Movement>(
       this.COLLECTION_NAME,
       ref => ref.orderBy('date', 'desc').limit(100)
     );
   }
 
   public mapObjects() {
-    return map((movements: DocumentChangeAction<any>[]) =>
+    return map((movements: any[]) =>
       movements.map(movement => {
-        const data = movement.payload.doc.data();
-        data.date = data.date.toDate();
-        const id = movement.payload.doc.id;
-        return { id, ...data };
+        movement.date = movement.date.toDate();
+        return movement;
       })
     );
   }
@@ -38,5 +35,4 @@ export class MovementsService extends FirestoreService<Movement> {
     movement.date = new Date(movement.date);
     return super.addDocument(movement);
   }
-
 }

@@ -14,17 +14,15 @@ export class FirestoreService<T> {
     this.collection = firestore.collection<any>(
       this.COLLECTION_NAME
     );
-    this.list = this.collection.snapshotChanges().pipe(
+    this.list = this.collection.valueChanges({idField: 'id'}).pipe(
       this.mapObjects()
     );
   }
 
   public mapObjects() {
-    return map((objects: DocumentChangeAction<any>[]) =>
+    return map((objects: any[]) =>
       objects.map(object => {
-        const data = object.payload.doc.data();
-        const id = object.payload.doc.id;
-        return { id, ...data };
+        return { ...object };
       })
     );
   }
@@ -33,7 +31,7 @@ export class FirestoreService<T> {
     return this.collection.add({ ...doc });
   }
 
-  public getList() {
+  public getListObservable() {
     return this.list;
   }
 }
