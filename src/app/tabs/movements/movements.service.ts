@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Movement } from './movements.model';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  DocumentChangeAction
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import 'firebase/firestore';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from 'src/app/shared/firestore.service';
+import { Movement } from './movements.model';
+import { AccountsService } from '../accounts/accounts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovementsService extends FirestoreService<Movement> {
-  constructor(firestore: AngularFirestore) {
+  constructor(
+    firestore: AngularFirestore,
+    private accountsService: AccountsService) {
     super('movements', firestore);
     this.collection = firestore.collection<Movement>(
       this.COLLECTION_NAME,
@@ -26,7 +24,7 @@ export class MovementsService extends FirestoreService<Movement> {
     return map((movements: any[]) =>
       movements.map(movement => {
         movement.date = movement.date.toDate();
-        return movement;
+        return movement as Movement;
       })
     );
   }

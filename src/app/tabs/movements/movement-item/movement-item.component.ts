@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Movement } from '../movements.model';
 
 @Component({
@@ -8,14 +8,15 @@ import { Movement } from '../movements.model';
 })
 export class MovementItemComponent implements OnInit {
   @Input() movement: Movement;
-  icon: string;
-  class: string;
+  icon: { name: string, class: string };
 
   constructor() {}
 
   ngOnInit() {
-    this.icon = Movement.getIconAndClass(this.movement.type).icon;
-    this.class = Movement.getIconAndClass(this.movement.type).class;
+    const handler = Movement.getHandler(this.movement.type);
+    this.icon = handler.getIcon();
+    // this.icon = Movement.getIconAndClass(this.movement.type).icon;
+    // this.class = Movement.getIconAndClass(this.movement.type).class;
   }
 
 }

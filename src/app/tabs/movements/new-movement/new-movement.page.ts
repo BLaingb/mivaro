@@ -11,7 +11,6 @@ import { IncomeFormComponent } from './forms/income-form/income-form.component';
 import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
 import { MovementForm } from './forms/movement-form';
 import { MovementsService } from '../movements.service';
-import { Movement, Expense } from '../movements.model';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 

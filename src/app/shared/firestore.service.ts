@@ -1,37 +1,53 @@
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export class FirestoreService<T> {
+interface DocumentRecord {
+  id?: string;
+}
+
+export class FirestoreService<T extends DocumentRecord> {
   protected readonly COLLECTION_NAME: string;
   protected collection: AngularFirestoreCollection<any>;
-  protected list: Observable<T[]>;
+  protected listObservable: Observable<T[]>;
+  protected listValues: T[];
 
   constructor(
     collectionName: string,
     firestore: AngularFirestore) {
     this.COLLECTION_NAME = collectionName;
-    this.collection = firestore.collection<any>(
+    this.collection = firestore.collection<T>(
       this.COLLECTION_NAME
     );
-    this.list = this.collection.valueChanges({idField: 'id'}).pipe(
+    this.listObservable = this.collection.valueChanges({idField: 'id'}).pipe(
       this.mapObjects()
     );
+    this.listObservable.subscribe((list: T[]) => {
+      this.listValues = list;
+    });
   }
 
   public mapObjects() {
     return map((objects: any[]) =>
       objects.map(object => {
-        return { ...object };
+        return { ...object } as T;
       })
     );
   }
 
-  public addDocument(doc: T) {
+  public addDocument(doc: T): Promise<DocumentReference> {
     return this.collection.add({ ...doc });
   }
 
-  public getListObservable() {
-    return this.list;
+  public getListObservable(): Observable<T[]> {
+    return this.listObservable;
+  }
+
+  public getListValues(): T[] {
+    return this.listValues;
+  }
+
+  public getById(id: string): T {
+    return this.listValues.find((object: T) => object.id === id);
   }
 }
