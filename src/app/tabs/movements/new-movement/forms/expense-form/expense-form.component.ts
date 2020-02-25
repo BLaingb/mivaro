@@ -1,6 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MovementForm } from '../movement-form';
+import { Account } from 'src/app/tabs/accounts/accounts.model';
+import { AccountsService } from 'src/app/tabs/accounts/accounts.service';
+import { take, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-expense-form',
@@ -9,9 +13,12 @@ import { MovementForm } from '../movement-form';
 })
 export class ExpenseFormComponent extends MovementForm implements OnInit {
   form: FormGroup;
+  accounts: Observable<Account[]>;
   @Output() formEmitter = new EventEmitter<FormGroup>(true);
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private accountsService: AccountsService) {
     super();
   }
 
@@ -24,7 +31,11 @@ export class ExpenseFormComponent extends MovementForm implements OnInit {
       account: ['', Validators.required],
       isBilled: ['']
     });
+    this.accounts = this.accountsService.getListObservable().pipe(take(1));
     this.form.valueChanges.subscribe(() => {
+      if (this.form.valid) {
+        this.form.value.account = this.accountsService.getDocumentReference(this.form.value.account);
+      }
       this.formEmitter.emit(this.form);
     });
   }

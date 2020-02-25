@@ -1,17 +1,20 @@
 <ion-item>
   <ion-icon
-    [name]="icon.name"
+    [name]="icon?.name"
     slot="start"
-    [class]="icon.class"
+    [class]="icon?.class"
   ></ion-icon>
   <ion-label class="ion-text-wrap">
     <ion-text>
       {{ movement.amount | currency }} - {{ movement.description }}
     </ion-text>
-    <!-- <ion-text *ngIf="movement.account">
-      account
-      {{ (movement.account | doc | async).name }}
-    </ion-text> -->
+    <br>
+    <ion-text *ngIf="movement.type === 'INTERCUENTA'" class="small">
+      {{ account.name }} > {{ destinationAccount.name }}
+    </ion-text>
+    <ion-text *ngIf="movement.type !== 'INTERCUENTA'" class="small">
+      {{ account.name }}
+    </ion-text>
   </ion-label>
   <ion-note slot="end">{{ movement.date | date: 'dd/MM/yy' }}</ion-note>
 </ion-item>

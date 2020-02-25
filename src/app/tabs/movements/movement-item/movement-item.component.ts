@@ -1,22 +1,32 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
+import { Account } from '../../accounts/accounts.model';
+import { AccountsService } from '../../accounts/accounts.service';
 import { Movement } from '../movements.model';
 
 @Component({
   selector: 'app-movement-item',
   templateUrl: './movement-item.component.html',
-  styleUrls: ['./movement-item.component.scss'],
+  styleUrls: ['./movement-item.component.scss']
 })
 export class MovementItemComponent implements OnInit {
   @Input() movement: Movement;
-  icon: { name: string, class: string };
+  icon: { name: string; class: string };
+  account: Account;
+  destinationAccount: Account;
 
-  constructor() {}
+  constructor(
+    private accountsService: AccountsService,
+    private toastCtrl: ToastController
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const handler = Movement.getHandler(this.movement.type);
     this.icon = handler.getIcon();
-    // this.icon = Movement.getIconAndClass(this.movement.type).icon;
-    // this.class = Movement.getIconAndClass(this.movement.type).class;
-  }
+    const ids = handler.getAccountIds(this.movement);
 
+    this.account = this.accountsService.getById(ids[0]);
+
+    this.destinationAccount = this.accountsService.getById(ids[1]);
+  }
 }

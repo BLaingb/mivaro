@@ -1,9 +1,10 @@
 import { Movement } from './movements.model';
+import { AccountsService } from '../accounts/accounts.service';
 
 export interface MovementHandler {
   getIcon(): { name: string; class: string };
   runTransaction();
-  getAccountDetails(movement: Movement);
+  getAccountIds(movement: Movement): string[];
 }
 
 export class ExpenseHandler implements MovementHandler {
@@ -13,7 +14,9 @@ export class ExpenseHandler implements MovementHandler {
 
   runTransaction() {}
 
-  getAccountDetails(expense: Movement) {}
+  getAccountIds(expense: Movement): string[] {
+    return [expense.account.id];
+  }
 }
 
 export class IncomeHandler implements MovementHandler {
@@ -23,7 +26,9 @@ export class IncomeHandler implements MovementHandler {
 
   runTransaction() {}
 
-  getAccountDetails(income: Movement) {}
+  getAccountIds(income: Movement): string[] {
+    return [income.account.id];
+  }
 }
 
 export class ExchangeHandler implements MovementHandler {
@@ -33,5 +38,7 @@ export class ExchangeHandler implements MovementHandler {
 
   runTransaction() {}
 
-  getAccountDetails(income: Movement) {}
+  getAccountIds(exchange: Movement): string[] {
+    return [exchange.sourceAccount.id, exchange.destinationAccount.id];
+  }
 }

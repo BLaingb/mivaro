@@ -13,6 +13,7 @@ import { MovementForm } from './forms/movement-form';
 import { MovementsService } from '../movements.service';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AccountsService } from '../../accounts/accounts.service';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
@@ -35,6 +36,7 @@ export class NewMovementPage implements OnInit {
     private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private movementsService: MovementsService,
+    private accountsService: AccountsService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {}

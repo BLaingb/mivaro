@@ -15,12 +15,16 @@ export class Movement {
   date: Date;
   amount: number;
   description: string;
-  source?: AngularFirestoreDocument;
-  category?: AngularFirestoreDocument;
-  account?: AngularFirestoreDocument;
+  // Income sources
+  source?: DocumentReference;
+  // Expense categories
+  category?: DocumentReference;
+  // Income or Expense account
+  account?: DocumentReference;
   isBilled?: boolean;
-  sourceAccount?: AngularFirestoreDocument;
-  destinationAccount?: AngularFirestoreDocument;
+  // Account for Exchange
+  sourceAccount?: DocumentReference;
+  destinationAccount?: DocumentReference;
 
   static getHandler(type: 'EGRESO' | 'INGRESO' | 'INTERCUENTA'): MovementHandler {
     const handler = handlers[type];

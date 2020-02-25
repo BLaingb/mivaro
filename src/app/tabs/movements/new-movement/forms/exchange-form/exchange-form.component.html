@@ -41,9 +41,7 @@
         <ion-item>
           <ion-label>Origen</ion-label>
           <ion-select formControlName="sourceAccount">
-            <ion-select-option value="1">TDD Bancomer</ion-select-option>
-            <ion-select-option value="2">TDD Banamex</ion-select-option>
-            <ion-select-option value="3">Efectivo</ion-select-option>
+            <ion-select-option *ngFor="let account of accounts | async" [value]="account.id">{{ account.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -53,9 +51,7 @@
         <ion-item>
           <ion-label>Destino</ion-label>
           <ion-select formControlName="destinationAccount">
-            <ion-select-option value="1">TDD Bancomer</ion-select-option>
-            <ion-select-option value="2">TDD Banamex</ion-select-option>
-            <ion-select-option value="3">Efectivo</ion-select-option>
+            <ion-select-option *ngFor="let account of accounts | async" [value]="account.id">{{ account.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>

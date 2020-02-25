@@ -14,7 +14,7 @@ export class FirestoreService<T extends DocumentRecord> {
 
   constructor(
     collectionName: string,
-    firestore: AngularFirestore) {
+    private firestore: AngularFirestore) {
     this.COLLECTION_NAME = collectionName;
     this.collection = firestore.collection<T>(
       this.COLLECTION_NAME
@@ -48,6 +48,11 @@ export class FirestoreService<T extends DocumentRecord> {
   }
 
   public getById(id: string): T {
-    return this.listValues.find((object: T) => object.id === id);
+    const value = this.listValues.find((object: T) => object.id === id);
+    return value;
+  }
+
+  public getDocumentReference(id: string): DocumentReference {
+    return this.firestore.collection(this.COLLECTION_NAME).doc(id).ref;
   }
 }

@@ -16,7 +16,6 @@ export class MovementsPage implements OnInit {
   ngOnInit() {
     this.movementsService.getListObservable().subscribe((movs) => {
       this.movements = movs;
-      console.log('Movements: ', this.movements);
     });
   }
 
