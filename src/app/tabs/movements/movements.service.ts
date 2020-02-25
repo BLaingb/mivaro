@@ -4,18 +4,22 @@ import 'firebase/firestore';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from 'src/app/shared/firestore.service';
 import { Movement } from './movements.model';
+import { AccountsService } from '../accounts/accounts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovementsService extends FirestoreService<Movement> {
   constructor(
-    firestore: AngularFirestore) {
+    firestore: AngularFirestore,
+    accountsService: AccountsService) {
     super('movements', firestore);
     this.collection = firestore.collection<Movement>(
       this.COLLECTION_NAME,
       ref => ref.orderBy('date', 'desc').limit(100)
     );
+    // Load accounts
+    accountsService.getListObservable();
   }
 
   public mapObjects() {
