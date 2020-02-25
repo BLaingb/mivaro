@@ -27,13 +27,13 @@ export class ExchangeFormComponent extends MovementForm implements OnInit {
       date: [new Date(), Validators.required],
       amount: ['', Validators.required],
       description: ['', Validators.required],
-      sourceAccount: ['', Validators.required],
+      account: ['', Validators.required],
       destinationAccount: ['', Validators.required]
     });
     this.accounts = this.accountsService.getListObservable().pipe(take(1));
     this.form.valueChanges.subscribe(() => {
       if (this.form.valid) {
-        this.form.value.sourceAccount = this.accountsService.getDocumentReference(this.form.value.sourceAccount);
+        this.form.value.account = this.accountsService.getDocumentReference(this.form.value.account);
         this.form.value.destinationAccount = this.accountsService.getDocumentReference(this.form.value.destinationAccount);
       }
       this.formEmitter.emit(this.form);

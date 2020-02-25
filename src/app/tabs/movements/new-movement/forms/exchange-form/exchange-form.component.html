@@ -40,7 +40,7 @@
       <ion-col size-sm="6" offset-sm="3">
         <ion-item>
           <ion-label>Origen</ion-label>
-          <ion-select formControlName="sourceAccount">
+          <ion-select formControlName="account">
             <ion-select-option *ngFor="let account of accounts | async" [value]="account.id">{{ account.name }}</ion-select-option>
           </ion-select>
         </ion-item>

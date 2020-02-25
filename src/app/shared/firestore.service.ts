@@ -52,7 +52,14 @@ export class FirestoreService<T extends DocumentRecord> {
     return value;
   }
 
-  public getDocumentReference(id: string): DocumentReference {
-    return this.firestore.collection(this.COLLECTION_NAME).doc(id).ref;
+  public getDocumentReference(id?: string): DocumentReference {
+    if (!id) {
+      return this.collection.doc(this.firestore.createId()).ref;
+    }
+    return this.collection.doc(id).ref;
+  }
+
+  protected newBatch(): firebase.firestore.WriteBatch {
+    return this.firestore.firestore.batch();
   }
 }

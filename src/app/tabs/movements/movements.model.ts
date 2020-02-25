@@ -19,11 +19,10 @@ export class Movement {
   source?: DocumentReference;
   // Expense categories
   category?: DocumentReference;
-  // Income or Expense account
+  // Income or Expense account OR Exchange Source Account
   account?: DocumentReference;
   isBilled?: boolean;
   // Account for Exchange
-  sourceAccount?: DocumentReference;
   destinationAccount?: DocumentReference;
 
   static getHandler(type: 'EGRESO' | 'INGRESO' | 'INTERCUENTA'): MovementHandler {

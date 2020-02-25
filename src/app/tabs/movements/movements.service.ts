@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from 'src/app/shared/firestore.service';
 import { Movement } from './movements.model';
-import { AccountsService } from '../accounts/accounts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovementsService extends FirestoreService<Movement> {
   constructor(
-    firestore: AngularFirestore,
-    private accountsService: AccountsService) {
+    firestore: AngularFirestore) {
     super('movements', firestore);
     this.collection = firestore.collection<Movement>(
       this.COLLECTION_NAME,
@@ -29,8 +27,13 @@ export class MovementsService extends FirestoreService<Movement> {
     );
   }
 
-  public addDocument(movement: Movement) {
+  public addDocument(movement: Movement): Promise<DocumentReference> {
+    let batch = this.newBatch();
     movement.date = new Date(movement.date);
-    return super.addDocument(movement);
+    const movementRef = super.getDocumentReference();
+    batch.set(movementRef, {...movement});
+    const handler = Movement.getHandler(movement.type);
+    batch = handler.addBatchOperations(batch, movement, movement.account, movement.destinationAccount);
+    return batch.commit().then();
   }
 }
