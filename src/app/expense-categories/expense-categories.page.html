@@ -9,11 +9,32 @@
 
 <ion-content>
   <ion-list>
-    <!-- <ion-item>
-      <ion-label>Categoría / Presupuesto Planeado / Gastado Total</ion-label>
-    </ion-item> -->
-    <ion-item *ngFor="let category of categories">
+    <form>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="5">
+            <ion-item>
+              <ion-input type="text" placeholder="Nueva categoría"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="5">
+            <ion-item>
+              <ion-input type="number" placeholder="Presupuesto Mensual"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" class="ion-align-items-end">
+            <ion-item class="ion-align-items-end  ion-align-text-end ion-no-padding">
+              <ion-button size="small" shape="round" type="submit" class="ion-align-items-end">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-item *ngFor="let category of categories" detail>
       <ion-label>{{ category.name }}</ion-label>
+      <ion-label class="ion-text-end">{{ category.plannedExpense | currency }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

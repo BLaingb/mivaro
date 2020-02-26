@@ -15,7 +15,6 @@ export class ExpenseCategoriesPage implements OnInit {
   ngOnInit() {
     this.expenseCatService.getListObservable().subscribe(categories => {
       this.categories = categories;
-      console.log('Categories: ', categories);
     });
   }
 
