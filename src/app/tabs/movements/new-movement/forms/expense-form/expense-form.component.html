@@ -17,9 +17,7 @@
         <ion-item>
           <ion-label>Categoría</ion-label>
           <ion-select formControlName="category">
-            <ion-select-option value="1">Salidas</ion-select-option>
-            <ion-select-option value="2">Gasolina</ion-select-option>
-            <ion-select-option value="3">Hormiga</ion-select-option>
+            <ion-select-option *ngFor="let category of categories | async" [value]="category.id">{{ category.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
