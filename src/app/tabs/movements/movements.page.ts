@@ -23,13 +23,13 @@ export class MovementsPage implements OnInit {
 
   async load() {
     const loader = await this.loadingCtrl.create();
-    const errorToast = await this.toastCtrl.create({ message: 'Hubo un problema :('});
     loader.present();
     this.movementsService.getListObservable().subscribe(movs => {
       this.movements = movs;
       loader.dismiss();
-    }, () => {
+    }, async () => {
       loader.dismiss();
+      const errorToast = await this.toastCtrl.create({ message: 'Hubo un problema :('});
       errorToast.present();
     });
   }

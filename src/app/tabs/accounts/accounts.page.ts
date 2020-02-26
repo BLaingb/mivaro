@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from './accounts.model';
 import { AccountsService } from './accounts.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-accounts',
@@ -10,11 +11,16 @@ import { AccountsService } from './accounts.service';
 export class AccountsPage implements OnInit {
   accounts: Account[];
 
-  constructor(private accountsService: AccountsService) {}
+  constructor(
+    private accountsService: AccountsService,
+    private loadingCtrl: LoadingController) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loader = await this.loadingCtrl.create();
+    loader.present();
     this.accountsService.getListObservable().subscribe(accounts => {
       this.accounts = accounts;
+      loader.dismiss();
     });
   }
 
