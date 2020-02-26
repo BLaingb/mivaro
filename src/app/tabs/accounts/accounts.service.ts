@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  DocumentChangeAction
-} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { Account } from './accounts.model';
-import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { FirestoreService } from 'src/app/shared/firestore.service';
+import { Account } from './accounts.model';
 
 @Injectable({
   providedIn: 'root'

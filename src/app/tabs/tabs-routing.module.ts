@@ -55,7 +55,12 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/movements',
     pathMatch: 'full'
+  },
+  {
+    path: 'expense-categories',
+    loadChildren: () => import('../expense-categories/expense-categories.module').then( m => m.ExpenseCategoriesPageModule)
   }
+
 ];
 
 @NgModule({
