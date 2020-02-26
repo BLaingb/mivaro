@@ -11,4 +11,9 @@ export class ExpenseCategoriesService extends FirestoreService<ExpenseCategory> 
   constructor(firestore: AngularFirestore) {
     super('category', firestore);
   }
+
+  public addDocument(category: ExpenseCategory) {
+    category.totalSpent = 0;
+    return super.addDocument(category);
+  }
 }
