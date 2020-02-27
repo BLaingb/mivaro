@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-list>
-    <form [formGroup]="form">
+  <ion-list>
+    <!-- <form [formGroup]="form">
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="5">
@@ -41,12 +41,12 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </form>
-    <ion-item *ngFor="let category of categories">
-      <ion-label>{{ category.name }}</ion-label>
-      <ion-label class="ion-text-end"
+    </form> -->
+    <ion-item *ngFor="let source of sources">
+      <ion-label>{{ source.name }}</ion-label>
+      <!-- <ion-label class="ion-text-end"
         >{{ category.plannedExpense | currency }}</ion-label
-      >
+      > -->
     </ion-item>
-  </ion-list> -->
+  </ion-list>
 </ion-content>
