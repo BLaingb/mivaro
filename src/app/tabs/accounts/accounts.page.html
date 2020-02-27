@@ -29,7 +29,7 @@
         <ion-item-option>
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="danger">
+        <ion-item-option color="danger" (click)="delete(account.id)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>

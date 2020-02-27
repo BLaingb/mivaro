@@ -52,6 +52,14 @@ export class FirestoreService<T extends DocumentRecord> {
     return value;
   }
 
+  public deleteById(id: string): Promise<void> {
+    const doc = this.getById(id);
+    if (!doc) {
+      return Promise.reject('El objeto no existe');
+    }
+    return this.collection.doc(id).delete();
+  }
+
   public getDocumentReference(id?: string): DocumentReference {
     if (!id) {
       return this.collection.doc(this.firestore.createId()).ref;

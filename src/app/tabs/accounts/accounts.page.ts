@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from './accounts.model';
 import { AccountsService } from './accounts.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-accounts',
@@ -13,7 +13,8 @@ export class AccountsPage implements OnInit {
 
   constructor(
     private accountsService: AccountsService,
-    private loadingCtrl: LoadingController) {}
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController) {}
 
   async ngOnInit() {
     const loader = await this.loadingCtrl.create();
@@ -26,5 +27,19 @@ export class AccountsPage implements OnInit {
 
   getIcon(account: Account): string {
     return Account.getIcon(account.type);
+  }
+
+  async delete(id: string) {
+    const loader = await this.loadingCtrl.create();
+    loader.present();
+    const toast =  await this.toastCtrl.create({
+      message: '¡La cuenta ha sido eliminada!'
+    });
+    this.accountsService.deleteById(id).catch((e) => {
+      toast.message = e.message;
+    }).finally(() => {
+      loader.dismiss();
+      toast.present();
+    });
   }
 }
