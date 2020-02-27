@@ -8,7 +8,7 @@ export interface MovementHandler {
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
     accountRef: DocumentReference,
-    destRef?: DocumentReference);
+    destRef?: DocumentReference): firebase.firestore.WriteBatch;
   getAccountIds(movement: Movement): string[];
 }
 
@@ -20,7 +20,7 @@ export class ExpenseHandler implements MovementHandler {
   addBatchOperations(
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
-    accountRef: DocumentReference) {
+    accountRef: DocumentReference): firebase.firestore.WriteBatch {
 
       batch.update(
         accountRef,
@@ -42,7 +42,7 @@ export class IncomeHandler implements MovementHandler {
   addBatchOperations(
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
-    accountRef: DocumentReference) {
+    accountRef: DocumentReference): firebase.firestore.WriteBatch {
 
       batch.update(
         accountRef,
@@ -65,7 +65,7 @@ export class ExchangeHandler implements MovementHandler {
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
     accountRef: DocumentReference,
-    destRef: DocumentReference) {
+    destRef: DocumentReference): firebase.firestore.WriteBatch {
 
       batch.update(
         accountRef,
