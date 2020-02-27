@@ -59,7 +59,12 @@ const routes: Routes = [
   {
     path: 'expense-categories',
     loadChildren: () => import('../expense-categories/expense-categories.module').then( m => m.ExpenseCategoriesPageModule)
+  },
+  {
+    path: 'income-sources',
+    loadChildren: () => import('../income-sources/income-sources.module').then( m => m.IncomeSourcesPageModule)
   }
+
 
 ];
 

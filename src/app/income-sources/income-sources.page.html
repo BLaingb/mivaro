@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/config"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Fuentes de Ingreso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-list>
+    <form [formGroup]="form">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="5">
+            <ion-item>
+              <ion-input type="text" placeholder="Nueva categoría" formControlName="name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="5">
+            <ion-item
+              >$
+              <ion-input type="number" placeholder="1000.00" formControlName="plannedExpense"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2" class="ion-align-items-end">
+            <ion-item
+              class="ion-align-items-end  ion-align-text-end ion-no-padding"
+            >
+              <ion-button
+                size="small"
+                shape="round"
+                type="submit"
+                class="ion-align-items-end"
+                [disabled]="!form.valid"
+                (click)="onConfirm()"
+              >
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-item *ngFor="let category of categories">
+      <ion-label>{{ category.name }}</ion-label>
+      <ion-label class="ion-text-end"
+        >{{ category.plannedExpense | currency }}</ion-label
+      >
+    </ion-item>
+  </ion-list> -->
+</ion-content>
