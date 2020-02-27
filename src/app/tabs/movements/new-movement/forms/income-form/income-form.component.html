@@ -17,9 +17,7 @@
         <ion-item>
           <ion-label>Fuente</ion-label>
           <ion-select formControlName="source">
-            <ion-select-option value="1">Percept</ion-select-option>
-            <ion-select-option value="2">Natgas</ion-select-option>
-            <ion-select-option value="3">Abuelos</ion-select-option>
+            <ion-select-option *ngFor="let source of incomeSources | async" [value]="source.id">{{ source.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>

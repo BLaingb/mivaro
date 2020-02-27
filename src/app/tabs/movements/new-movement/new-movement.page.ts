@@ -55,6 +55,7 @@ export class NewMovementPage implements OnInit {
       this.movementsService
         .addDocument({ ...this.form.value, type: this.type })
         .then(() => {
+          this.form.value.clear();
           toast.present();
         }).catch(() => {
           toast.message = 'Hubo un problema :(';
