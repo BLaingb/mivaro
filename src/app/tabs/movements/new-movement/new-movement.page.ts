@@ -1,19 +1,12 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ComponentFactoryResolver,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HelpersService } from 'src/app/shared/helpers.service';
+import { MovementsService } from '../movements.service';
+import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
 import { ExpenseFormComponent } from './forms/expense-form/expense-form.component';
 import { IncomeFormComponent } from './forms/income-form/income-form.component';
-import { ExchangeFormComponent } from './forms/exchange-form/exchange-form.component';
 import { MovementForm } from './forms/movement-form';
-import { MovementsService } from '../movements.service';
-import { LoadingController, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AccountsService } from '../../accounts/accounts.service';
 
 const formTypes = {
   EGRESO: ExpenseFormComponent,
@@ -36,9 +29,7 @@ export class NewMovementPage implements OnInit {
     private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private movementsService: MovementsService,
-    private accountsService: AccountsService,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private helpersService: HelpersService
   ) {}
 
   ngOnInit() {
@@ -46,25 +37,14 @@ export class NewMovementPage implements OnInit {
   }
 
   async onConfirm() {
-    const loader = await this.loadingCtrl.create();
-    const toast = await this.toastCtrl.create({
-      message: '¡Transacción registrada!',
-      duration: 2000
-    });
-    loader.present().then(() => {
+    await this.helpersService.handlePromise(
       this.movementsService
-        .addDocument({ ...this.form.value, type: this.type })
-        .then(() => {
-          this.form.value.clear();
-          toast.present();
-        }).catch(() => {
-          toast.message = 'Hubo un problema :(';
-          toast.present();
-        }).finally(() => {
-          loader.dismiss();
-          this.router.navigate(['/', 'tabs', 'movements']);
-        });
-    });
+        .addDocument({ ...this.form.value, type: this.type }),
+        '¡Transacción registrada!',
+        'Hubo un problema :('
+    );
+    this.form.value.clear();
+    this.router.navigate(['/', 'tabs', 'movements']);
   }
 
   loadForm(event: any) {

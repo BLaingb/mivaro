@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
+import { HelpersService } from 'src/app/shared/helpers.service';
 import { Account } from './accounts.model';
 import { AccountsService } from './accounts.service';
-import { LoadingController, ToastController } from '@ionic/angular';
-import { HelpersService } from 'src/app/shared/helpers.service';
 
 @Component({
   selector: 'app-accounts',
@@ -15,7 +15,6 @@ export class AccountsPage implements OnInit {
   constructor(
     private accountsService: AccountsService,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
     private helpersService: HelpersService) {}
 
   async ngOnInit() {

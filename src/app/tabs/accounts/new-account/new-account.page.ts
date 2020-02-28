@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AccountsService } from '../accounts.service';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HelpersService } from 'src/app/shared/helpers.service';
+import { AccountsService } from '../accounts.service';
 
 @Component({
   selector: 'app-new-account',
@@ -16,8 +16,7 @@ export class NewAccountPage implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private accountsService: AccountsService,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) { }
+    private helpersService: HelpersService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -36,24 +35,12 @@ export class NewAccountPage implements OnInit {
   }
 
   async onConfirm() {
-    const loader = await this.loadingCtrl.create();
-    const toast = await this.toastCtrl.create({
-      message: '¡Cuenta creada!',
-      duration: 2000
-    });
-    loader.present().then(() => {
-      this.accountsService
-        .addDocument({ ...this.form.value })
-        .then(() => {
-          toast.present();
-        }).catch(() => {
-          toast.message = 'Hubo un problema :(';
-          toast.present();
-        }).finally(() => {
-          loader.dismiss();
-          this.router.navigate(['/', 'tabs', 'accounts']);
-        });
-    });
+    await this.helpersService.handlePromise(
+      this.accountsService.addDocument({...this.form.value}),
+      '¡Cuenta creada!',
+      'No pudimos crear tu cuenta'
+    );
+    this.router.navigate(['/', 'tabs', 'accounts']);
   }
 
 }
