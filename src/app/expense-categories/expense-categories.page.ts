@@ -37,4 +37,8 @@ export class ExpenseCategoriesPage implements OnInit {
     }
   }
 
+  async delete(id: string) {
+    this.expenseCatService.deleteById(id);
+  }
+
 }
