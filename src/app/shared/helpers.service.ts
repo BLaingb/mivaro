@@ -11,20 +11,14 @@ export class HelpersService {
     private toastCtrl: ToastController) { }
 
   // Add a loader and toast message to a promise
-  public async handlePromise(promise: Promise<any>, options?: { successMessage?: string, errorMessage?: string, showToast?: boolean}) {
+  public async handlePromise(promise: Promise<any>, options: { successMessage?: string, errorMessage?: string, showToast?: boolean} = {}) {
     const loader = await this.loadingCtrl.create();
     loader.present();
-    let message = '¡Éxito!';
-    let errorMessage: string = null;
-    let showToast = true;
-    if (options) {
-      message = options.successMessage || '¡Éxito!';
-      showToast = options.showToast !== undefined ? options.showToast : true;
-      errorMessage = options.errorMessage || null;
-    }
+    const message = options.successMessage || '¡Éxito!';
+    const showToast = options.showToast !== undefined ? options.showToast : true;
     const toast =  await this.toastCtrl.create({ message, duration: 2000 });
     promise.catch((e) => {
-      toast.message = errorMessage || e.message;
+      toast.message = options.errorMessage || e.message;
     }).finally(() => {
       loader.dismiss();
       if (showToast) { toast.present(); }
