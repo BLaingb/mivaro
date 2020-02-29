@@ -46,7 +46,7 @@ export class NewMovementPage implements OnInit {
           errorMessage: 'Hubo un problema :('
         }
     );
-    this.form.value.clear();
+    this.form.reset();
     this.router.navigate(['/', 'tabs', 'movements']);
   }
 

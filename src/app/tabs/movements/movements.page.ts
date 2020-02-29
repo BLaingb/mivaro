@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Movement } from './movements.model';
 import { MovementsService } from './movements.service';
+import { HelpersService } from 'src/app/shared/helpers.service';
 
 @Component({
   selector: 'app-movements',
@@ -14,7 +15,8 @@ export class MovementsPage implements OnInit {
   constructor(
     private movementsService: MovementsService,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private helpersService: HelpersService
   ) {}
 
   ngOnInit() {
@@ -32,5 +34,14 @@ export class MovementsPage implements OnInit {
       const errorToast = await this.toastCtrl.create({ message: 'Hubo un problema :('});
       errorToast.present();
     });
+  }
+
+  delete(id: string) {
+    this.helpersService.handlePromise(
+      this.movementsService.deleteById(id),
+      {
+        showToast: false
+      }
+    );
   }
 }
