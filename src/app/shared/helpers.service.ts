@@ -22,7 +22,7 @@ export class HelpersService {
       showToast = options.showToast !== undefined ? options.showToast : true;
       errorMessage = options.errorMessage || null;
     }
-    const toast =  await this.toastCtrl.create({ message });
+    const toast =  await this.toastCtrl.create({ message, duration: 2000 });
     promise.catch((e) => {
       toast.message = errorMessage || e.message;
     }).finally(() => {
