@@ -41,4 +41,13 @@ export class IncomeSourcesPage implements OnInit {
     }
   }
 
+  delete(id: string) {
+    this.helpersService.handlePromise(
+      this.incomeSourceService.deleteById(id),
+      {
+        showToast: false
+      }
+    );
+  }
+
 }
