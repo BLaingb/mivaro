@@ -33,7 +33,10 @@ export class AccountsPage implements OnInit {
   async delete(id: string) {
     this.helpersService.handlePromise(
       this.accountsService.deleteById(id),
-      '¡La cuenta ha sido eliminada!'
+      {
+        showToast: true,
+        successMessage: '¡La cuenta ha sido eliminada!'
+      }
     );
   }
 }

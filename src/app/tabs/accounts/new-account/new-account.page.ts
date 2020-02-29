@@ -37,8 +37,11 @@ export class NewAccountPage implements OnInit {
   async onConfirm() {
     await this.helpersService.handlePromise(
       this.accountsService.addDocument({...this.form.value}),
-      '¡Cuenta creada!',
-      'No pudimos crear tu cuenta'
+      {
+        showToast: true,
+        successMessage: '¡Cuenta creada!',
+        errorMessage: 'No pudimos crear tu cuenta'
+      }
     );
     this.router.navigate(['/', 'tabs', 'accounts']);
   }

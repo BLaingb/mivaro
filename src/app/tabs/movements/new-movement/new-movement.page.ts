@@ -40,8 +40,11 @@ export class NewMovementPage implements OnInit {
     await this.helpersService.handlePromise(
       this.movementsService
         .addDocument({ ...this.form.value, type: this.type }),
-        '¡Transacción registrada!',
-        'Hubo un problema :('
+        {
+          showToast: true,
+          successMessage: '¡Transacción registrada!',
+          errorMessage: 'Hubo un problema :('
+        }
     );
     this.form.value.clear();
     this.router.navigate(['/', 'tabs', 'movements']);

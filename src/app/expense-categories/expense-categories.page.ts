@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExpenseCategoriesService } from './expense-categories.service';
 import { ExpenseCategory } from './expense-categories.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HelpersService } from '../shared/helpers.service';
 
 @Component({
   selector: 'app-expense-categories',
@@ -14,6 +15,7 @@ export class ExpenseCategoriesPage implements OnInit {
 
   constructor(
     private expenseCatService: ExpenseCategoriesService,
+    private helpersService: HelpersService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -32,13 +34,23 @@ export class ExpenseCategoriesPage implements OnInit {
 
   onConfirm() {
     if (this.form.valid) {
-      this.expenseCatService.addDocument({ ...this.form.value });
+      this.helpersService.handlePromise(
+        this.expenseCatService.addDocument({ ...this.form.value }),
+        {
+          showToast: false
+        }
+      );
       this.form.reset();
     }
   }
 
   async delete(id: string) {
-    this.expenseCatService.deleteById(id);
+    this.helpersService.handlePromise(
+      this.expenseCatService.deleteById(id),
+      {
+        showToast: false
+      }
+    );
   }
 
 }

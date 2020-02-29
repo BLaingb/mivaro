@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IncomeSource } from './income-source.model';
 import { IncomeSourcesService } from './income-sources.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HelpersService } from '../shared/helpers.service';
 
 @Component({
   selector: 'app-income-sources',
@@ -14,6 +15,7 @@ export class IncomeSourcesPage implements OnInit {
 
   constructor(
     private incomeSourceService: IncomeSourcesService,
+    private helpersService: HelpersService,
     private fb: FormBuilder
   ) { }
 
@@ -29,7 +31,12 @@ export class IncomeSourcesPage implements OnInit {
 
   onConfirm() {
     if (this.form.valid) {
-      this.incomeSourceService.addDocument({ ...this.form.value });
+      this.helpersService.handlePromise(
+        this.incomeSourceService.addDocument({ ...this.form.value }),
+        {
+          showToast: false
+        }
+      );
       this.form.reset();
     }
   }
