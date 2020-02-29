@@ -9,6 +9,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { firebaseCredentials } from './../../credentials';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import 'chartjs-plugin-zoom';
 
 
 
