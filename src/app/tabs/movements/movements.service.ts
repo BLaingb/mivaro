@@ -37,7 +37,17 @@ export class MovementsService extends FirestoreService<Movement> {
     const movementRef = super.getDocumentReference();
     batch.set(movementRef, {...movement});
     const handler = Movement.getHandler(movement.type);
-    batch = handler.addBatchOperations(batch, movement, movement.account, movement.destinationAccount);
+    batch = handler.addBatchOperations(batch, movement, movement.account, false, movement.destinationAccount);
+    return batch.commit().then();
+  }
+
+  public deleteById(id: string): Promise<void> {
+    let batch = this.newBatch();
+    const movement = this.getById(id);
+    const movementRef = this.getDocumentReference(id);
+    batch.delete(movementRef);
+    const handler = Movement.getHandler(movement.type);
+    batch = handler.addBatchOperations(batch, movement, movement.account, true, movement.destinationAccount);
     return batch.commit().then();
   }
 }

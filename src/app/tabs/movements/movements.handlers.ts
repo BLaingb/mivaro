@@ -8,6 +8,7 @@ export interface MovementHandler {
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
     accountRef: DocumentReference,
+    inverse: boolean,
     destRef?: DocumentReference): firebase.firestore.WriteBatch;
   getAccountIds(movement: Movement): string[];
 }
@@ -20,11 +21,12 @@ export class ExpenseHandler implements MovementHandler {
   addBatchOperations(
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
-    accountRef: DocumentReference): firebase.firestore.WriteBatch {
-
+    accountRef: DocumentReference,
+    inverse: boolean = false): firebase.firestore.WriteBatch {
+      const amount = inverse ? - movement.amount : movement.amount;
       batch.update(
         accountRef,
-        { balance: firebase.firestore.FieldValue.increment(-movement.amount)}
+        { balance: firebase.firestore.FieldValue.increment(-amount)}
       );
       return batch;
   }
@@ -42,11 +44,12 @@ export class IncomeHandler implements MovementHandler {
   addBatchOperations(
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
-    accountRef: DocumentReference): firebase.firestore.WriteBatch {
-
+    accountRef: DocumentReference,
+    inverse: boolean = false): firebase.firestore.WriteBatch {
+      const amount = inverse ? - movement.amount : movement.amount;
       batch.update(
         accountRef,
-        { balance: firebase.firestore.FieldValue.increment(movement.amount)}
+        { balance: firebase.firestore.FieldValue.increment(amount)}
       );
       return batch;
   }
@@ -65,15 +68,16 @@ export class ExchangeHandler implements MovementHandler {
     batch: firebase.firestore.WriteBatch,
     movement: Movement,
     accountRef: DocumentReference,
+    inverse: boolean = false,
     destRef: DocumentReference): firebase.firestore.WriteBatch {
-
+      const amount = inverse ? - movement.amount : movement.amount;
       batch.update(
         accountRef,
-        { balance: firebase.firestore.FieldValue.increment(-movement.amount)}
+        { balance: firebase.firestore.FieldValue.increment(-amount)}
       );
       batch.update(
         destRef,
-        { balance: firebase.firestore.FieldValue.increment(movement.amount)}
+        { balance: firebase.firestore.FieldValue.increment(amount)}
       );
       return batch;
   }
