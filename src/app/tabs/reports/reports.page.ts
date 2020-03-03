@@ -10,6 +10,7 @@ import { Movement } from '../movements/movements.model';
   styleUrls: ['./reports.page.scss'],
 })
 export class ReportsPage implements OnInit {
+  selectedCategory = 'Aei13AILd4fvMPtzJlku';
   public val: string;
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -32,7 +33,16 @@ export class ReportsPage implements OnInit {
   constructor(private movementsService: MovementsService) { }
 
   ngOnInit() {
+    let spent = 0;
     this.movementList = this.movementsService.getListValues();
+    this.movementList = this.movementList.filter((movement) => {
+      return movement.category && movement.category.id === this.selectedCategory;
+    });
+    this.movementList.forEach(movement => {
+      spent += movement.amount;
+    });
+    this.pieChartData[0] = spent;
+    this.pieChartData[1] = 4150 - spent;
   }
 
 }

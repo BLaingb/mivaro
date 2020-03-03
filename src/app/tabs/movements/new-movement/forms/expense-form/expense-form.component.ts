@@ -40,6 +40,7 @@ export class ExpenseFormComponent extends MovementForm implements OnInit {
     this.form.valueChanges.subscribe(() => {
       if (this.form.valid) {
         this.form.value.account = this.accountsService.getDocumentReference(this.form.value.account);
+        this.form.value.category = this.categoriesService.getDocumentReference(this.form.value.category);
       }
       this.formEmitter.emit(this.form);
     });
