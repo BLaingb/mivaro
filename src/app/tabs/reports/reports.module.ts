@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ChartsModule } from 'ng2-charts';
 import { ReportsPage } from './reports.page';
+import { SpentByCategoryComponent } from './charts/spent-by-category/spent-by-category.component';
 
 
 
@@ -16,6 +17,6 @@ import { ReportsPage } from './reports.page';
     RouterModule.forChild([{ path: '', component: ReportsPage }]),
     ChartsModule
   ],
-  declarations: [ReportsPage]
+  declarations: [ReportsPage, SpentByCategoryComponent]
 })
 export class ReportsPageModule {}

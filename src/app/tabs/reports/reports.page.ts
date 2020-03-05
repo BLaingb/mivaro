@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartType, ChartOptions } from 'chart.js';
-import { Label } from 'ng2-charts';
 import { MovementsService } from '../movements/movements.service';
+import { ExpenseCategoriesService } from 'src/app/expense-categories/expense-categories.service';
+import { HelpersService } from 'src/app/shared/helpers.service';
+import { LoadingController } from '@ionic/angular';
 import { Movement } from '../movements/movements.model';
+import { ExpenseCategory } from 'src/app/expense-categories/expense-categories.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reports',
@@ -10,39 +13,24 @@ import { Movement } from '../movements/movements.model';
   styleUrls: ['./reports.page.scss'],
 })
 export class ReportsPage implements OnInit {
-  selectedCategory = 'Aei13AILd4fvMPtzJlku';
-  public val: string;
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
-    legend: {
-      position: 'top'
-    }
-  };
-  public pieChartLabels: Label[] = ['Gastado', 'Por Gastar'];
-  public pieChartData: number[] = [300, 500];
-  public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
-  public pieChartColors = [
-    {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)']
-    }
-  ];
+  movements: Movement[] = [];
+  categories: ExpenseCategory[] = [];
 
-  movementList: Movement[];
-
-  constructor(private movementsService: MovementsService) { }
+  constructor(
+    private movementsService: MovementsService,
+    private categoriesService: ExpenseCategoriesService,
+    private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    let spent = 0;
-    this.movementList = this.movementsService.getListValues();
-    this.movementList = this.movementList.filter((movement) => {
-      return movement.category && movement.category.id === this.selectedCategory;
-    });
-    this.movementList.forEach(movement => {
-      spent += movement.amount;
-    });
-    this.pieChartData[0] = spent;
-    this.pieChartData[1] = 4150 - spent;
+
+  }
+
+  async loadLists() {
+    const loader = await this.loadingCtrl.create();
+    loader.present();
+    this.movementsService.getListObservable().pipe(take(1)).subscribe(movs => this.movements = movs);
+    this.categoriesService.getListObservable().pipe(take(1)).subscribe(catgs => this.categories = catgs);
+    loader.dismiss();
   }
 
 }

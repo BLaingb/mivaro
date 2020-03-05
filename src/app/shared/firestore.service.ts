@@ -1,6 +1,6 @@
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 interface DocumentRecord {
   id?: string;
@@ -43,8 +43,12 @@ export class FirestoreService<T extends DocumentRecord> {
     return this.listObservable;
   }
 
+  public getList(): Promise<T[]> {
+    return this.getListObservable().pipe(take(1)).toPromise();
+  }
+
   public getListValues(): T[] {
-    return this.listValues;
+    return this.listValues || [];
   }
 
   public getById(id: string): T {
