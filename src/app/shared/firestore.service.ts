@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference, CollectionReference } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -14,10 +14,12 @@ export class FirestoreService<T extends DocumentRecord> {
 
   constructor(
     collectionName: string,
-    private firestore: AngularFirestore) {
+    private firestore: AngularFirestore,
+    query?: (ref: CollectionReference) => any) {
     this.COLLECTION_NAME = collectionName;
     this.collection = firestore.collection<T>(
-      this.COLLECTION_NAME
+      this.COLLECTION_NAME,
+      query || this.defaultQuery
     );
     this.listObservable = this.collection.valueChanges({idField: 'id'}).pipe(
       this.mapObjects()
@@ -33,6 +35,10 @@ export class FirestoreService<T extends DocumentRecord> {
         return { ...object } as T;
       })
     );
+  }
+
+  private defaultQuery(ref: CollectionReference): CollectionReference {
+    return ref;
   }
 
   public addDocument(doc: T): Promise<DocumentReference> {

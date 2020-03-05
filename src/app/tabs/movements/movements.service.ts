@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import 'firebase/firestore';
+// import 'firebase/firestore';
 import { map } from 'rxjs/operators';
 import { FirestoreService } from 'src/app/shared/firestore.service';
 import { Movement } from './movements.model';
 import { AccountsService } from '../accounts/accounts.service';
+import * as moment from 'moment';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,13 @@ export class MovementsService extends FirestoreService<Movement> {
   constructor(
     firestore: AngularFirestore,
     accountsService: AccountsService) {
-    super('movements', firestore);
-    this.collection = firestore.collection<Movement>(
-      this.COLLECTION_NAME,
-      ref => ref.orderBy('date', 'desc').limit(100)
-    );
+    const fromDate = firebase.firestore.Timestamp.fromDate(moment().startOf('month').toDate());
+    super(
+      'movements',
+      firestore,
+      ref => ref
+        .where('date', '>=', fromDate)
+        .orderBy('date', 'desc'));
     // Load accounts
     accountsService.getListObservable();
   }

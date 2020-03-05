@@ -58,7 +58,6 @@ export class SpentByCategoryComponent implements OnInit {
   }
 
   drawChart(categoryId: string) {
-    console.log('categoryId: ', categoryId);
     const spent = this.categories[categoryId] ? this.categories[categoryId].amountSpent : 0;
     const remaining = this.categories[categoryId] ? this.categories[categoryId].budget - spent : 0;
     this.pieChartData = [spent, remaining];
