@@ -14,6 +14,8 @@ import { MovementsService } from 'src/app/tabs/movements/movements.service';
 export class SpentByCategoryComponent implements OnInit {
   @Input() movementList: Movement[];
   @Input() categoryList: ExpenseCategory[];
+  private totalBudget = 0;
+  private totalSpent = 0;
   public categories: any = {};
   public val: string;
   public pieChartOptions: ChartOptions = {
@@ -46,20 +48,26 @@ export class SpentByCategoryComponent implements OnInit {
     this.categoryList = await this.categoriesService.getList();
     this.categoryList.forEach(category => {
       this.categories[category.id] = { name: category.name, amountSpent: 0, budget: category.plannedExpense };
+      this.totalBudget += category.plannedExpense;
     });
     this.movementList = this.movementList.filter((movement) => movement.type === 'EGRESO');
     this.movementList.forEach(movement => {
       if (this.categories[movement.category.id]) {
         this.categories[movement.category.id].amountSpent += movement.amount;
+        this.totalSpent += movement.amount;
       }
     });
-    this.drawChart(this.categoryList[0].id);
+    this.drawChart('ALL');
     this.loading = false;
   }
 
   drawChart(categoryId: string) {
-    const spent = this.categories[categoryId] ? this.categories[categoryId].amountSpent : 0;
-    const remaining = this.categories[categoryId] ? this.categories[categoryId].budget - spent : 0;
+    let spent = this.categories[categoryId] ? this.categories[categoryId].amountSpent : 0;
+    let remaining = this.categories[categoryId] ? this.categories[categoryId].budget - spent : 0;
+    if (categoryId === 'ALL') {
+      spent = this.totalSpent;
+      remaining = this.totalBudget - spent;
+    }
     this.pieChartData = [spent, remaining];
   }
 }

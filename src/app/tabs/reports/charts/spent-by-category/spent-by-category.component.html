@@ -12,7 +12,9 @@
       <ion-col size="6" offset="3">
         <form>
           <ion-select
-            (ionChange)="drawChart($event.target.value)">
+            (ionChange)="drawChart($event.target.value)"
+            value="ALL">
+            <ion-select-option value="ALL">Todas las categorías</ion-select-option>
             <ion-select-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</ion-select-option>
           </ion-select>
         </form>
