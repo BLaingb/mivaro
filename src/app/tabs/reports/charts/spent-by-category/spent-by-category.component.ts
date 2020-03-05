@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ChartType, ChartOptions } from 'chart.js';
+import { Component, Input, OnInit } from '@angular/core';
+import { ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
-import { Movement } from 'src/app/tabs/movements/movements.model';
 import { ExpenseCategory } from 'src/app/expense-categories/expense-categories.model';
-import { MovementsService } from 'src/app/tabs/movements/movements.service';
 import { ExpenseCategoriesService } from 'src/app/expense-categories/expense-categories.service';
-import { LoadingController } from '@ionic/angular';
+import { Movement } from 'src/app/tabs/movements/movements.model';
+import { MovementsService } from 'src/app/tabs/movements/movements.service';
 
 @Component({
   selector: 'app-spent-by-category',
@@ -15,7 +14,7 @@ import { LoadingController } from '@ionic/angular';
 export class SpentByCategoryComponent implements OnInit {
   @Input() movementList: Movement[];
   @Input() categoryList: ExpenseCategory[];
-  selectedCategory = 'Aei13AILd4fvMPtzJlku';
+  public categories: any = {};
   public val: string;
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -45,20 +44,23 @@ export class SpentByCategoryComponent implements OnInit {
   async load() {
     this.movementList = await this.movementsService.getList();
     this.categoryList = await this.categoriesService.getList();
-    const cats: any = {};
     this.categoryList.forEach(category => {
-      cats[category.id] = { name: category.name, amountSpent: 0, budget: category.plannedExpense };
+      this.categories[category.id] = { name: category.name, amountSpent: 0, budget: category.plannedExpense };
     });
     this.movementList = this.movementList.filter((movement) => movement.type === 'EGRESO');
     this.movementList.forEach(movement => {
-      if (cats[movement.category.id]) {
-        cats[movement.category.id].amountSpent += movement.amount;
+      if (this.categories[movement.category.id]) {
+        this.categories[movement.category.id].amountSpent += movement.amount;
       }
     });
-    const spent = cats[this.selectedCategory] ? cats[this.selectedCategory].amountSpent : 0;
-    const budget = cats[this.selectedCategory] ? cats[this.selectedCategory].budget - spent : 0;
-    this.pieChartData[0] = spent;
-    this.pieChartData[1] = budget;
+    this.drawChart(this.categoryList[0].id);
     this.loading = false;
+  }
+
+  drawChart(categoryId: string) {
+    console.log('categoryId: ', categoryId);
+    const spent = this.categories[categoryId] ? this.categories[categoryId].amountSpent : 0;
+    const remaining = this.categories[categoryId] ? this.categories[categoryId].budget - spent : 0;
+    this.pieChartData = [spent, remaining];
   }
 }

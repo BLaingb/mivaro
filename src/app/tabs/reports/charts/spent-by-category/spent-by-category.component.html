@@ -11,9 +11,9 @@
     <ion-row>
       <ion-col size="6" offset="3">
         <form>
-          <ion-select [(ngModel)]="val" [ngModelOptions]="{ standalone: true }">
-            <ion-select-option value="1">1</ion-select-option>
-            <ion-select-option value="2">2</ion-select-option>
+          <ion-select
+            (ionChange)="drawChart($event.target.value)">
+            <ion-select-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</ion-select-option>
           </ion-select>
         </form>
       </ion-col>
